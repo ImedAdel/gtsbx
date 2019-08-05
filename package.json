@@ -41,5 +41,8 @@
     "tsdx": "^0.7.2",
     "tslib": "^1.10.0",
     "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "enquirer": "^2.3.1"
   }
 }
