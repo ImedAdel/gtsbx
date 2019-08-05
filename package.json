@@ -1,7 +1,15 @@
 {
   "name": "gtsbx",
+  "author": {
+    "name": "Imed Adel",
+    "email": "aadelimed@gmail.com",
+    "url": "https://imedadel.me"
+  },
+  "homepage": "https://github.com/ImedAdel/gtsbx",
+  "repository": "https://github.com/ImedAdel/gtsbx",
   "version": "0.1.0",
   "main": "dist/index.js",
+  "license": "MIT",
   "module": "dist/gtsbx.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -19,9 +27,10 @@
     }
   },
   "prettier": {
-    "printWidth": 80,
-    "semi": true,
+    "endOfLine": "lf",
+    "semi": false,
     "singleQuote": true,
+    "useTabs": true,
     "trailingComma": "es5"
   },
   "devDependencies": {
