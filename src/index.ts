@@ -16,7 +16,7 @@ const getName = async () =>
 	prompt([
 		{
 			type: 'input',
-			name: 'username',
+			name: 'intent',
 			message: 'What is ya name, buddy?',
 		},
 		{
@@ -26,8 +26,8 @@ const getName = async () =>
 		},
 	])
 ;(async () => {
-	const username: { username?: string; lastName?: string } = await getName()
-	return console.log(username.username, username.lastName)
+	const username: { intent?: string; lastName?: string } = await getName()
+	return console.log(username.intent, username.lastName)
 })()
 
 export const sum = (a: number, b: number) => {
