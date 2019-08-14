@@ -3,6 +3,31 @@
 
 const inquirer = require('inquirer')
 
+// const featuresChoices = [
+// 	'Yarn Workspaces',
+// 	'UI Libraries',
+// 	'CSS Processors',
+// 	'CSS-in-JS',
+// 	'Linter / Formatter',
+// 	'Unit Testing',
+// 	'E2E Testing',
+// ]
+
+const featuresChoices = [
+	'Yarn Workspaces',
+	'Bulma',
+	'TailwindCSS',
+	'Tachyons',
+	'Emotion',
+	'Styled-Components',
+	'SASS/SCSS',
+	'PostCSS',
+	'Prettier + ESLint',
+	'Jest',
+	'Cypress',
+	'Storybook',
+]
+
 const main = async () => {
 	const getInfo = await inquirer.prompt([
 		{
@@ -15,18 +40,12 @@ const main = async () => {
 			type: 'checkbox',
 			name: 'selectedFeatures',
 			message: 'Check the features needed for your project:',
-			choices: [
-				'Yarn Workspaces',
-				'UI Libraries',
-				'CSS Pre-processors',
-				'CSS-in-JS',
-				'Linter / Formatter',
-				'Unit Testing',
-				'E2E Testing',
-			],
+			choices: featuresChoices,
 		},
 	])
+
 	console.table(getInfo)
+	console.log(getInfo.selectedFeatures[1])
 
 	// const makeSureOfNames = await inquirer.prompt([
 	// 	{
