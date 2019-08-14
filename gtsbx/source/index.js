@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 
+const fs = require('fs')
 const inquirer = require('inquirer')
 
 // const featuresChoices = [
@@ -65,6 +66,10 @@ const main = async () => {
 			choices: pluginsChoices,
 		},
 	])
+
+	fs.mkdir(getInfo.projectName, { recursive: true }, error => {
+		if (error) throw error
+	})
 
 	console.table(getInfo)
 	console.log(getInfo.selectedFeatures[1])
