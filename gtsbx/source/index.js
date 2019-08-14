@@ -28,8 +28,24 @@ const featuresChoices = [
 	'Storybook',
 ]
 
+const pluginsChoices = [
+	'gatsby-source-filesystem',
+	'gatsby-plugin-react-helmet',
+	'gatsby-plugin-sharp',
+	'gatsby-plugin-manifest',
+	'gatsby-plugin-offline',
+	'gatsby-transformer-remark',
+	'gatsby-plugin-google-analytics',
+	'gatsby-plugin-sitemap',
+]
+
 const main = async () => {
 	const getInfo = await inquirer.prompt([
+		{
+			type: 'input',
+			name: 'projectName',
+			message: 'Write the name of your project:',
+		},
 		{
 			type: 'list',
 			name: 'projectType',
@@ -41,6 +57,12 @@ const main = async () => {
 			name: 'selectedFeatures',
 			message: 'Check the features needed for your project:',
 			choices: featuresChoices,
+		},
+		{
+			type: 'checkbox',
+			name: 'selectedPlugins',
+			message: 'Check the plugins needed for your project:',
+			choices: pluginsChoices,
 		},
 	])
 
