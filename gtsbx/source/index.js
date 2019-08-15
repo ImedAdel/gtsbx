@@ -67,9 +67,16 @@ const main = async () => {
 		},
 	])
 
+	const mdleExprt = `
+		module.exports = {
+			plugins: ['gatsby-source-filesystem'],
+		}
+	`
 	try {
 		await fs.mkdir(getInfo.projectName)
 		console.log(`🎉 created directory ${getInfo.projectName}`)
+		await fs.outputFile(`${getInfo.projectName}/gatsby-config.js`, mdleExprt)
+		console.log(`🎉 created file gatsby-config.js`)
 	} catch (error) {
 		throw error
 	}
