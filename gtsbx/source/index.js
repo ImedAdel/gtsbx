@@ -4,30 +4,54 @@
 const fs = require('fs-extra')
 const inquirer = require('inquirer')
 
-// const featuresChoices = [
-// 	'Yarn Workspaces',
-// 	'UI Libraries',
-// 	'CSS Processors',
-// 	'CSS-in-JS',
-// 	'Linter / Formatter',
-// 	'Unit Testing',
-// 	'E2E Testing',
-// ]
-
 const featuresChoices = [
 	'Yarn Workspaces',
-	'Bulma',
-	'TailwindCSS',
-	'Tachyons',
-	'Emotion',
-	'Styled-Components',
-	'SASS/SCSS',
-	'PostCSS',
-	'Prettier + ESLint',
-	'Jest',
-	'Cypress',
-	'Storybook',
+	'UI Libraries',
+	'CSS Processors',
+	'CSS-in-JS',
+	'Linter / Formatter',
+	'Unit Testing',
+	'E2E Testing',
 ]
+
+// const featuresChoices = [
+// 	'Yarn Workspaces',
+// 	'Bulma',
+// 	'TailwindCSS',
+// 	'Tachyons',
+// 	'Emotion',
+// 	'Styled-Components',
+// 	'SASS/SCSS',
+// 	'PostCSS',
+// 	'Prettier + ESLint',
+// 	'Jest',
+// 	'Cypress',
+// 	'Storybook',
+// ]
+
+const featuresDetails = {
+	'UI Libraries': async () =>
+		await inquirer.prompt({
+			type: 'list',
+			name: 'uiLibrary',
+			message: 'Choose the UI library of your project:',
+			choices: ['TailwindCSS'],
+		}),
+	'CSS Processors': async () =>
+		await inquirer.prompt({
+			type: 'list',
+			name: 'cssProcessor',
+			message: 'Choose the CSS Processor of your project:',
+			choices: ['PostCSS', 'SASS/SCSS'],
+		}),
+	'CSS-in-JS': async () =>
+		await inquirer.prompt({
+			type: 'list',
+			name: 'cssInJs',
+			message: 'Choose the CSS-in-JS library of your project:',
+			choices: ['Styled Components', 'Emotion'],
+		}),
+}
 
 const pluginsChoices = [
 	'gatsby-source-filesystem',
@@ -67,6 +91,24 @@ const main = async () => {
 		},
 	])
 
+	// getInfo.selectedFeatures.forEach(async feature => {
+	// 	detailedInfo[feature] = await feature()
+	// })
+
+	let detailedInfo = {}
+
+	for (const feat in featuresDetails) {
+		detailedInfo = {...detailedInfo, ...await featuresDetails[feat]()}
+	}
+
+	// await Object.entries(featuresDetails).map(
+	// 	async ([featName, featFunc]) => {
+	// 		scndDetailedInfo = {...scndDetailedInfo, ...await featFunc()}
+	// 	}
+	// )
+
+	// const detailedInfo = await featuresDetails['CSS-in-JS']()
+
 	const mdleExprt = `
 		module.exports = {
 			plugins: ['gatsby-source-filesystem'],
@@ -98,6 +140,9 @@ const main = async () => {
 	// })
 
 	console.table(getInfo)
+	console.table(getInfo.selectedFeatures)
+	console.table(detailedInfo)
+	// console.table(scndDetailedInfo)
 	console.log(getInfo.selectedFeatures[1])
 
 	// const makeSureOfNames = await inquirer.prompt([
