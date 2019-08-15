@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 
-const fs = require('fs')
+const fs = require('fs-extra')
 const inquirer = require('inquirer')
 
 // const featuresChoices = [
@@ -67,9 +67,17 @@ const main = async () => {
 		},
 	])
 
-	fs.mkdir(getInfo.projectName, { recursive: true }, error => {
-		if (error) throw error
-	})
+	try {
+		fs.mkdir(getInfo.projectName)
+	} catch (error) {
+		throw error
+	}
+
+	// fs.mkdir(getInfo.projectName, { recursive: true }, error => {
+	// 	if (error) throw error
+
+	// 	// fs.writeFile
+	// })
 
 	console.table(getInfo)
 	console.log(getInfo.selectedFeatures[1])
