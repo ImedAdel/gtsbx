@@ -68,10 +68,21 @@ const main = async () => {
 	])
 
 	try {
-		fs.mkdir(getInfo.projectName)
+		await fs.mkdir(getInfo.projectName)
+		console.log(`🎉 created directory ${getInfo.projectName}`)
 	} catch (error) {
 		throw error
 	}
+
+	/**
+	 * @todo remove this in production
+	 */
+	// try {
+	// 	await fs.remove(getInfo.projectName)
+	// 	console.log(`🗑 removed directory ${getInfo.projectName}`)
+	// } catch (error) {
+	// 	throw error
+	// }
 
 	// fs.mkdir(getInfo.projectName, { recursive: true }, error => {
 	// 	if (error) throw error
