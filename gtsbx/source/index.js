@@ -97,9 +97,21 @@ const main = async () => {
 
 	let detailedInfo = {}
 
-	for (const feat in featuresDetails) {
-		detailedInfo = {...detailedInfo, ...await featuresDetails[feat]()}
+	for (let index = 0; index < getInfo.selectedFeatures.length; ++index) {
+		console.log(getInfo.selectedFeatures[index])
+		if (featuresDetails.hasOwnProperty(getInfo.selectedFeatures[index]))
+			detailedInfo = {
+				...detailedInfo,
+				...(await featuresDetails[getInfo.selectedFeatures[index]]()),
+			}
 	}
+
+	// getInfo.selectedFeatures.forEach(async feat => {
+	// })
+
+	// for (const feat in getInfo.selectedFeatures) {
+	// 	detailedInfo = {...detailedInfo, ...await featuresDetails[feat]()}
+	// }
 
 	// await Object.entries(featuresDetails).map(
 	// 	async ([featName, featFunc]) => {
