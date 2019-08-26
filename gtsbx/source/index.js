@@ -84,10 +84,20 @@ const main = async () => {
 			choices: featuresChoices,
 		},
 		{
+			type: prev => prev.includes(0) ? 'confirm' : null,
+			name: 'confirmYarnWorkspaces',
+			message: 'Are you sure that you want to enable Yarn Workspaces?'
+		},
+		{
 			type: 'multiselect',
 			name: 'selectedPlugins',
 			message: 'Check the plugins needed for your project:',
 			choices: pluginsChoices,
+		},
+		{
+			type: (prev, values) => values.selectedFeatures.includes(5) ? 'confirm' : null,
+			name: 'confirmUnitTesting',
+			message: 'Are you sure that you want to enable Unit Testing?'
 		},
 	])
 
