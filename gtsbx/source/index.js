@@ -2,7 +2,7 @@
 'use strict'
 
 const fs = require('fs-extra')
-const inquirer = require('inquirer')
+const prompts = require('prompts')
 
 const featuresChoices = [
 	'Yarn Workspaces',
@@ -31,21 +31,21 @@ const featuresChoices = [
 
 const featuresDetails = {
 	'UI Libraries': async () =>
-		await inquirer.prompt({
+		await prompts({
 			type: 'list',
 			name: 'uiLibrary',
 			message: 'Choose the UI library of your project:',
 			choices: ['TailwindCSS'],
 		}),
 	'CSS Processors': async () =>
-		await inquirer.prompt({
+		await prompts({
 			type: 'list',
 			name: 'cssProcessor',
 			message: 'Choose the CSS Processor of your project:',
 			choices: ['PostCSS', 'SASS/SCSS'],
 		}),
 	'CSS-in-JS': async () =>
-		await inquirer.prompt({
+		await prompts({
 			type: 'list',
 			name: 'cssInJs',
 			message: 'Choose the CSS-in-JS library of your project:',
@@ -65,35 +65,43 @@ const pluginsChoices = [
 ]
 
 const main = async () => {
-	const getInfo = await inquirer.prompt([
+	const getInfo = await prompts([
 		{
-			type: 'input',
+			type: 'text',
 			name: 'projectName',
 			message: 'Write the name of your project:',
 		},
 		{
-			type: 'list',
+			type: 'select',
 			name: 'projectType',
 			message: 'Choose the type of your project:',
 			choices: ['Starter', 'Plugin', 'Theme'],
 		},
 		{
-			type: 'checkbox',
+			type: 'multiselect',
 			name: 'selectedFeatures',
 			message: 'Check the features needed for your project:',
 			choices: featuresChoices,
 		},
 		{
-			type: 'checkbox',
+			type: 'multiselect',
 			name: 'selectedPlugins',
 			message: 'Check the plugins needed for your project:',
 			choices: pluginsChoices,
 		},
 	])
 
+	const response = await prompts({
+    type: 'number',
+    name: 'value',
+    message: 'How old are you?',
+    validate: value => value < 18 ? `Nightclub is 18+ only` : true
+  })
+
 	// getInfo.selectedFeatures.forEach(async feature => {
 	// 	detailedInfo[feature] = await feature()
 	// })
+	/*
 
 	let detailedInfo = {}
 
@@ -105,6 +113,7 @@ const main = async () => {
 				...(await featuresDetails[getInfo.selectedFeatures[index]]()),
 			}
 	}
+	*/
 
 	// getInfo.selectedFeatures.forEach(async feat => {
 	// })
@@ -152,8 +161,9 @@ const main = async () => {
 	// })
 
 	console.table(getInfo)
+	console.log(getInfo)
 	console.table(getInfo.selectedFeatures)
-	console.table(detailedInfo)
+	console.table(response)
 	// console.table(scndDetailedInfo)
 	console.log(getInfo.selectedFeatures[1])
 
