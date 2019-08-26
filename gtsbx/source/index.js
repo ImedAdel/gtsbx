@@ -5,13 +5,13 @@ const fs = require('fs-extra')
 const prompts = require('prompts')
 
 const featuresChoices = [
-	'Yarn Workspaces',
-	'UI Libraries',
-	'CSS Processors',
-	'CSS-in-JS',
-	'Linter / Formatter',
-	'Unit Testing',
-	'E2E Testing',
+	{ title: 'Yarn Workspaces', value: 'YarnWorkspaces'},
+	{ title: 'UI Libraries', value: 'UILibraries'},
+	{ title: 'CSS Processors', value: 'CSSProcessors'},
+	{ title: 'CSS-in-JS', value: 'CSSinJS'},
+	{ title: 'Linter / Formatter', value: 'LinterFormatter'},
+	{ title: 'Unit Testing', value: 'UnitTesting'},
+	{ title: 'E2E Testing', value: 'E2ETesting'},
 ]
 
 // const featuresChoices = [
@@ -84,9 +84,11 @@ const main = async () => {
 			choices: featuresChoices,
 		},
 		{
-			type: prev => prev.includes(0) ? 'confirm' : null,
+			type: prev => prev.includes('YarnWorkspaces') ? 'toggle' : null,
 			name: 'confirmYarnWorkspaces',
-			message: 'Are you sure that you want to enable Yarn Workspaces?'
+			message: 'Are you sure that you want to enable Yarn Workspaces?',
+			active: 'Yes',
+			inactive: 'No'
 		},
 		{
 			type: 'multiselect',
@@ -95,7 +97,7 @@ const main = async () => {
 			choices: pluginsChoices,
 		},
 		{
-			type: (prev, values) => values.selectedFeatures.includes(5) ? 'confirm' : null,
+			type: (prev, values) => values.selectedFeatures.includes('UnitTesting') ? 'confirm' : null,
 			name: 'confirmUnitTesting',
 			message: 'Are you sure that you want to enable Unit Testing?'
 		},
