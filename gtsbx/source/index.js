@@ -5,52 +5,13 @@ const fs = require('fs-extra')
 const prompts = require('prompts')
 
 const featuresChoices = [
-	{ title: 'Yarn Workspaces', value: 'YarnWorkspaces'},
-	{ title: 'CSS Processors', value: 'CSSProcessors'},
-	{ title: 'CSS-in-JS', value: 'CSSinJS'},
-	{ title: 'Linter / Formatter', value: 'LinterFormatter'},
-	{ title: 'Unit Testing', value: 'UnitTesting'},
-	{ title: 'E2E Testing', value: 'E2ETesting'},
+	{ title: 'Yarn Workspaces', value: 'YarnWorkspaces' },
+	{ title: 'CSS Processors', value: 'CSSProcessors' },
+	{ title: 'CSS-in-JS', value: 'CSSinJS' },
+	{ title: 'Linter / Formatter', value: 'LinterFormatter' },
+	{ title: 'Unit Testing', value: 'UnitTesting' },
+	{ title: 'E2E Testing', value: 'E2ETesting' },
 ]
-
-// const featuresChoices = [
-// 	'Yarn Workspaces',
-// 	'Bulma',
-// 	'TailwindCSS',
-// 	'Tachyons',
-// 	'Emotion',
-// 	'Styled-Components',
-// 	'SASS/SCSS',
-// 	'PostCSS',
-// 	'Prettier + ESLint',
-// 	'Jest',
-// 	'Cypress',
-// 	'Storybook',
-// ]
-
-const featuresDetails = {
-	'UI Libraries': async () =>
-		await prompts({
-			type: 'list',
-			name: 'uiLibrary',
-			message: 'Choose the UI library of your project:',
-			choices: ['TailwindCSS'],
-		}),
-	'CSS Processors': async () =>
-		await prompts({
-			type: 'list',
-			name: 'cssProcessor',
-			message: 'Choose the CSS Processor of your project:',
-			choices: ['PostCSS', 'SASS/SCSS'],
-		}),
-	'CSS-in-JS': async () =>
-		await prompts({
-			type: 'list',
-			name: 'cssInJs',
-			message: 'Choose the CSS-in-JS library of your project:',
-			choices: ['Styled Components', 'Emotion'],
-		}),
-}
 
 const pluginsChoices = [
 	'gatsby-source-filesystem',
@@ -62,6 +23,8 @@ const pluginsChoices = [
 	'gatsby-plugin-google-analytics',
 	'gatsby-plugin-sitemap',
 ]
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 const main = async () => {
 	const getInfo = await prompts([
@@ -82,13 +45,6 @@ const main = async () => {
 			message: 'Check the features needed for your project:',
 			choices: featuresChoices,
 		},
-		// {
-		// 	type: prev => prev.includes('YarnWorkspaces') ? 'toggle' : null,
-		// 	name: 'confirmYarnWorkspaces',
-		// 	message: 'Are you sure that you want to enable Yarn Workspaces?',
-		// 	active: 'Yes',
-		// 	inactive: 'No'
-		// },
 		{
 			type: 'multiselect',
 			name: 'selectedPlugins',
@@ -96,90 +52,91 @@ const main = async () => {
 			choices: pluginsChoices,
 		},
 		{
-			type: (prev, values) => values.selectedFeatures.includes('CSSProcessors') ? 'select' : null,
+			type: (prev, values) =>
+				values.selectedFeatures.includes('CSSProcessors') ? 'select' : null,
 			name: 'CSSProcessor',
 			message: 'Choose your preferred CSS Processor',
 			choices: [
 				{
 					title: 'PostCSS',
-					value: 'PostCSS'
+					value: 'PostCSS',
 				},
 				{
 					title: 'SCSS and PostCSS',
-					value: 'SCSSandPostCSS'
+					value: 'SCSSandPostCSS',
 				},
-			]
+			],
 		},
 		{
-			type: (prev, values) => values.selectedFeatures.includes('CSSinJS') ? 'select' : null,
+			type: (prev, values) =>
+				values.selectedFeatures.includes('CSSinJS') ? 'select' : null,
 			name: 'CSSinJS',
 			message: 'Pick a CSS-in-JS library',
 			choices: [
 				{
 					title: 'Styled Components',
-					value: 'StyledComponents'
+					value: 'StyledComponents',
 				},
 				{
 					title: 'Emotion',
-					value: 'Emotion'
+					value: 'Emotion',
 				},
-			]
+			],
 		},
 		{
-			type: (prev, values) => values.selectedFeatures.includes('LinterFormatter') ? 'select' : null,
+			type: (prev, values) =>
+				values.selectedFeatures.includes('LinterFormatter') ? 'select' : null,
 			name: 'LinterFormatter',
 			message: 'Pick a Linter and a Formatter',
 			choices: [
 				{
 					title: 'Prettier with ESLint Airbnb',
-					value: 'PrettierESLintAirbnb'
+					value: 'PrettierESLintAirbnb',
 				},
 				{
 					title: 'Prettier with ESLint Unicorn',
-					value: 'PrettierESLintUnicorn'
+					value: 'PrettierESLintUnicorn',
 				},
-			]
+			],
 		},
 		{
-			type: (prev, values) => values.selectedFeatures.includes('UnitTesting') ? 'select' : null,
+			type: (prev, values) =>
+				values.selectedFeatures.includes('UnitTesting') ? 'select' : null,
 			name: 'UnitTesting',
 			message: 'Are you sure that you want to enable Unit Testing?',
 			choices: [
 				{
 					title: 'Jest',
-					value: 'Jest'
+					value: 'Jest',
 				},
 				{
 					title: 'Ava',
-					value: 'Ava'
+					value: 'Ava',
 				},
-			]
+			],
 		},
 		{
-			type: (prev, values) => values.selectedFeatures.includes('E2ETesting') ? 'select' : null,
+			type: (prev, values) =>
+				values.selectedFeatures.includes('E2ETesting') ? 'select' : null,
 			name: 'E2ETesting',
 			message: 'Are you sure that you want to enable Unit Testing?',
 			choices: [
 				{
 					title: 'Cypress',
-					value: 'Cypress'
+					value: 'Cypress',
 				},
-			]
+			],
 		},
 	])
 
 	const response = await prompts({
-    type: 'number',
-    name: 'value',
-    message: 'How old are you?',
-    validate: value => value < 18 ? `Nightclub is 18+ only` : true
-  })
+		type: 'number',
+		name: 'value',
+		message: 'How old are you?',
+		validate: value => (value < 18 ? `Nightclub is 18+ only` : true),
+	})
 
-	// getInfo.selectedFeatures.forEach(async feature => {
-	// 	detailedInfo[feature] = await feature()
-	// })
 	/*
-
 	let detailedInfo = {}
 
 	for (let index = 0; index < getInfo.selectedFeatures.length; ++index) {
@@ -192,22 +149,7 @@ const main = async () => {
 	}
 	*/
 
-	// getInfo.selectedFeatures.forEach(async feat => {
-	// })
-
-	// for (const feat in getInfo.selectedFeatures) {
-	// 	detailedInfo = {...detailedInfo, ...await featuresDetails[feat]()}
-	// }
-
-	// await Object.entries(featuresDetails).map(
-	// 	async ([featName, featFunc]) => {
-	// 		scndDetailedInfo = {...scndDetailedInfo, ...await featFunc()}
-	// 	}
-	// )
-
-	// const detailedInfo = await featuresDetails['CSS-in-JS']()
-
-	const mdleExprt = `
+	const mdleExprts = `
 		module.exports = {
 			plugins: ['gatsby-source-filesystem'],
 		}
@@ -215,7 +157,7 @@ const main = async () => {
 	try {
 		await fs.mkdir(getInfo.projectName)
 		console.log(`🎉 created directory ${getInfo.projectName}`)
-		await fs.outputFile(`${getInfo.projectName}/gatsby-config.js`, mdleExprt)
+		await fs.outputFile(`${getInfo.projectName}/gatsby-config.js`, mdleExprts)
 		console.log(`🎉 created file gatsby-config.js`)
 	} catch (error) {
 		throw error
@@ -224,12 +166,6 @@ const main = async () => {
 	/**
 	 * @todo remove this in production
 	 */
-	// try {
-	// 	await fs.remove(getInfo.projectName)
-	// 	console.log(`🗑 removed directory ${getInfo.projectName}`)
-	// } catch (error) {
-	// 	throw error
-	// }
 
 	// fs.mkdir(getInfo.projectName, { recursive: true }, error => {
 	// 	if (error) throw error
@@ -243,6 +179,14 @@ const main = async () => {
 	console.table(response)
 	// console.table(scndDetailedInfo)
 	console.log(getInfo.selectedFeatures[1])
+
+	await sleep(10000)
+	try {
+		await fs.remove(getInfo.projectName)
+		console.log(`🗑 removed directory ${getInfo.projectName}`)
+	} catch (error) {
+		throw error
+	}
 
 	// const makeSureOfNames = await inquirer.prompt([
 	// 	{
