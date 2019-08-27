@@ -6,7 +6,6 @@ const prompts = require('prompts')
 
 const featuresChoices = [
 	{ title: 'Yarn Workspaces', value: 'YarnWorkspaces'},
-	{ title: 'UI Libraries', value: 'UILibraries'},
 	{ title: 'CSS Processors', value: 'CSSProcessors'},
 	{ title: 'CSS-in-JS', value: 'CSSinJS'},
 	{ title: 'Linter / Formatter', value: 'LinterFormatter'},
@@ -83,13 +82,13 @@ const main = async () => {
 			message: 'Check the features needed for your project:',
 			choices: featuresChoices,
 		},
-		{
-			type: prev => prev.includes('YarnWorkspaces') ? 'toggle' : null,
-			name: 'confirmYarnWorkspaces',
-			message: 'Are you sure that you want to enable Yarn Workspaces?',
-			active: 'Yes',
-			inactive: 'No'
-		},
+		// {
+		// 	type: prev => prev.includes('YarnWorkspaces') ? 'toggle' : null,
+		// 	name: 'confirmYarnWorkspaces',
+		// 	message: 'Are you sure that you want to enable Yarn Workspaces?',
+		// 	active: 'Yes',
+		// 	inactive: 'No'
+		// },
 		{
 			type: 'multiselect',
 			name: 'selectedPlugins',
@@ -97,9 +96,75 @@ const main = async () => {
 			choices: pluginsChoices,
 		},
 		{
-			type: (prev, values) => values.selectedFeatures.includes('UnitTesting') ? 'confirm' : null,
-			name: 'confirmUnitTesting',
-			message: 'Are you sure that you want to enable Unit Testing?'
+			type: (prev, values) => values.selectedFeatures.includes('CSSProcessors') ? 'select' : null,
+			name: 'CSSProcessor',
+			message: 'Choose your preferred CSS Processor',
+			choices: [
+				{
+					title: 'PostCSS',
+					value: 'PostCSS'
+				},
+				{
+					title: 'SCSS and PostCSS',
+					value: 'SCSSandPostCSS'
+				},
+			]
+		},
+		{
+			type: (prev, values) => values.selectedFeatures.includes('CSSinJS') ? 'select' : null,
+			name: 'CSSinJS',
+			message: 'Pick a CSS-in-JS library',
+			choices: [
+				{
+					title: 'Styled Components',
+					value: 'StyledComponents'
+				},
+				{
+					title: 'Emotion',
+					value: 'Emotion'
+				},
+			]
+		},
+		{
+			type: (prev, values) => values.selectedFeatures.includes('LinterFormatter') ? 'select' : null,
+			name: 'LinterFormatter',
+			message: 'Pick a Linter and a Formatter',
+			choices: [
+				{
+					title: 'Prettier with ESLint Airbnb',
+					value: 'PrettierESLintAirbnb'
+				},
+				{
+					title: 'Prettier with ESLint Unicorn',
+					value: 'PrettierESLintUnicorn'
+				},
+			]
+		},
+		{
+			type: (prev, values) => values.selectedFeatures.includes('UnitTesting') ? 'select' : null,
+			name: 'UnitTesting',
+			message: 'Are you sure that you want to enable Unit Testing?',
+			choices: [
+				{
+					title: 'Jest',
+					value: 'Jest'
+				},
+				{
+					title: 'Ava',
+					value: 'Ava'
+				},
+			]
+		},
+		{
+			type: (prev, values) => values.selectedFeatures.includes('E2ETesting') ? 'select' : null,
+			name: 'E2ETesting',
+			message: 'Are you sure that you want to enable Unit Testing?',
+			choices: [
+				{
+					title: 'Cypress',
+					value: 'Cypress'
+				},
+			]
 		},
 	])
 
