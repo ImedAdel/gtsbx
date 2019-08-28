@@ -4,26 +4,6 @@
 const fs = require('fs-extra')
 const prompts = require('prompts')
 
-const featuresChoices = [
-	{ title: 'Yarn Workspaces', value: 'YarnWorkspaces' },
-	{ title: 'CSS Processors', value: 'CSSProcessors' },
-	{ title: 'CSS-in-JS', value: 'CSSinJS' },
-	{ title: 'Linter / Formatter', value: 'LinterFormatter' },
-	{ title: 'Unit Testing', value: 'UnitTesting' },
-	{ title: 'E2E Testing', value: 'E2ETesting' },
-]
-
-const pluginsChoices = [
-	'gatsby-source-filesystem',
-	'gatsby-plugin-react-helmet',
-	'gatsby-plugin-sharp',
-	'gatsby-plugin-manifest',
-	'gatsby-plugin-offline',
-	'gatsby-transformer-remark',
-	'gatsby-plugin-google-analytics',
-	'gatsby-plugin-sitemap',
-]
-
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 const main = async () => {
@@ -43,13 +23,29 @@ const main = async () => {
 			type: 'multiselect',
 			name: 'selectedFeatures',
 			message: 'Check the features needed for your project:',
-			choices: featuresChoices,
+			choices: [
+				{ title: 'Yarn Workspaces', value: 'YarnWorkspaces' },
+				{ title: 'CSS Processors', value: 'CSSProcessors' },
+				{ title: 'CSS-in-JS', value: 'CSSinJS' },
+				{ title: 'Linter / Formatter', value: 'LinterFormatter' },
+				{ title: 'Unit Testing', value: 'UnitTesting' },
+				{ title: 'E2E Testing', value: 'E2ETesting' },
+			],
 		},
 		{
 			type: 'multiselect',
 			name: 'selectedPlugins',
 			message: 'Check the plugins needed for your project:',
-			choices: pluginsChoices,
+			choices: [
+				'gatsby-source-filesystem',
+				'gatsby-plugin-react-helmet',
+				'gatsby-plugin-sharp',
+				'gatsby-plugin-manifest',
+				'gatsby-plugin-offline',
+				'gatsby-transformer-remark',
+				'gatsby-plugin-google-analytics',
+				'gatsby-plugin-sitemap',
+			],
 		},
 		{
 			type: (prev, values) =>
