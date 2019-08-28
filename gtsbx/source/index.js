@@ -96,7 +96,9 @@ const main = async () => {
 		},
 		{
 			type: (prev, values) =>
-				values.selectedFeatures.includes('LinterFormatter') ? 'multiselect' : null,
+				values.selectedFeatures.includes('LinterFormatter')
+					? 'multiselect'
+					: null,
 			name: 'ESLintPresets',
 			message: 'Choose your preferred ESLint presets and plugins',
 			choices: [
@@ -184,26 +186,69 @@ const main = async () => {
 	}
 	*/
 
-	const mdleExprts = `
-		module.exports = {
-			plugins: ['gatsby-source-filesystem'],
+	if (getInfo.selectedFeatures.YarnWorkspaces) {
+		const fullProjectName = `gatsby-${
+			[`starter`, `plugin`, `theme`][getInfo.projectType]
+		}-${getInfo.projectName}`
+		const mainGatsbyConfig = `
+			module.exports = {
+				plugins: ['gatsby-source-filesystem'],
+			}
+		`
+		const demoGatsbyConfig = `
+			module.exports = {
+				plugins: ['gatsby-source-filesystem'],
+			}
+		`
+
+		try {
+			// create main folders
+			// await fs.mkdir(getInfo.projectName)
+			// await fs.mkdir(`${getInfo.projectName}/${fullProjectName}`)
+			// await fs.mkdir(`${getInfo.projectName}/demo`)
+
+			// create config files
+			await fs.outputFile(
+				`${getInfo.projectName}/${fullProjectName}/gatsby-config.js`,
+				mainGatsbyConfig
+			)
+			await fs.outputFile(
+				`${getInfo.projectName}/gatsby-config.js`,
+				gatsbyConfig
+			)
+			console.log(`🎉 created file gatsby-config.js`)
+			await fs.outputFile(`${getInfo.projectName}/package.json`, packageJSON)
+			console.log(`🎉 created file gatsby-config.js`)
+		} catch (error) {
+			throw error
 		}
-	`
-	const pkg = `
-		{
-			"name": "gatsby-${[`starter`, `plugin`, `theme`][getInfo.projectType]}-${getInfo.projectName}",
-			"version": "0.1.0"
+	} else {
+		const gatsbyConfig = `
+			module.exports = {
+				plugins: ['gatsby-source-filesystem'],
+			}
+		`
+		const packageJSON = `
+			{
+				"name": "gatsby-${[`starter`, `plugin`, `theme`][getInfo.projectType]}-${
+			getInfo.projectName
+		}",
+				"version": "0.1.0"
+			}
+		`
+		try {
+			await fs.mkdir(getInfo.projectName)
+			console.log(`🎉 created directory ${getInfo.projectName}`)
+			await fs.outputFile(
+				`${getInfo.projectName}/gatsby-config.js`,
+				gatsbyConfig
+			)
+			console.log(`🎉 created file gatsby-config.js`)
+			await fs.outputFile(`${getInfo.projectName}/package.json`, packageJSON)
+			console.log(`🎉 created file gatsby-config.js`)
+		} catch (error) {
+			throw error
 		}
-	`
-	try {
-		await fs.mkdir(getInfo.projectName)
-		console.log(`🎉 created directory ${getInfo.projectName}`)
-		await fs.outputFile(`${getInfo.projectName}/gatsby-config.js`, mdleExprts)
-		console.log(`🎉 created file gatsby-config.js`)
-		await fs.outputFile(`${getInfo.projectName}/package.json`, pkg)
-		console.log(`🎉 created file gatsby-config.js`)
-	} catch (error) {
-		throw error
 	}
 
 	/**
