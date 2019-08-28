@@ -98,15 +98,39 @@ const main = async () => {
 			type: (prev, values) =>
 				values.selectedFeatures.includes('LinterFormatter') ? 'multiselect' : null,
 			name: 'ESLintPresets',
-			message: 'Choose your preferred ESLint presets',
+			message: 'Choose your preferred ESLint presets and plugins',
 			choices: [
+				{
+					title: 'React App',
+					value: 'ReactApp',
+				},
 				{
 					title: 'Airbnb',
 					value: 'Airbnb',
 				},
 				{
+					title: 'Standard',
+					value: 'Standard',
+				},
+				{
+					title: 'React',
+					value: 'React',
+				},
+				{
+					title: 'JSX A11y',
+					value: 'JSXA11y',
+				},
+				{
 					title: 'Unicorn',
 					value: 'Unicorn',
+				},
+				{
+					title: 'React Hooks',
+					value: 'ReactHooks',
+				},
+				{
+					title: 'JSDoc',
+					value: 'JSDoc',
 				},
 			],
 		},
