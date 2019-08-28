@@ -25,11 +25,10 @@ const main = async () => {
 			message: 'Check the features needed for your project:',
 			choices: [
 				{ title: 'Yarn Workspaces', value: 'YarnWorkspaces' },
-				{ title: 'CSS Processors', value: 'CSSProcessors' },
+				{ title: 'CSS Libraries and Frameworks', value: 'CSSLibs' },
 				{ title: 'CSS-in-JS', value: 'CSSinJS' },
 				{ title: 'Linter / Formatter', value: 'LinterFormatter' },
-				{ title: 'Unit Testing', value: 'UnitTesting' },
-				{ title: 'E2E Testing', value: 'E2ETesting' },
+				{ title: 'Testing', value: 'Testing' },
 			],
 		},
 		{
@@ -49,17 +48,33 @@ const main = async () => {
 		},
 		{
 			type: (prev, values) =>
-				values.selectedFeatures.includes('CSSProcessors') ? 'select' : null,
-			name: 'CSSProcessor',
-			message: 'Choose your preferred CSS Processor',
+				values.selectedFeatures.includes('CSSLibs') ? 'select' : null,
+			name: 'CSSLib',
+			message: 'Pick a CSS library or framework',
 			choices: [
 				{
 					title: 'PostCSS',
 					value: 'PostCSS',
 				},
 				{
-					title: 'SCSS and PostCSS',
-					value: 'SCSSandPostCSS',
+					title: 'Sass',
+					value: 'Sass',
+				},
+				{
+					title: 'Typography.js',
+					value: 'Typographyjs',
+				},
+				{
+					title: 'TailwindCSS',
+					value: 'TailwindCSS',
+				},
+				{
+					title: 'Bulma',
+					value: 'Bulma',
+				},
+				{
+					title: 'Theme UI',
+					value: 'ThemeUI',
 				},
 			],
 		},
@@ -81,45 +96,45 @@ const main = async () => {
 		},
 		{
 			type: (prev, values) =>
-				values.selectedFeatures.includes('LinterFormatter') ? 'select' : null,
-			name: 'LinterFormatter',
-			message: 'Pick a Linter and a Formatter',
+				values.selectedFeatures.includes('LinterFormatter') ? 'multiselect' : null,
+			name: 'ESLintPresets',
+			message: 'Choose your preferred ESLint presets',
 			choices: [
 				{
-					title: 'Prettier with ESLint Airbnb',
-					value: 'PrettierESLintAirbnb',
+					title: 'Airbnb',
+					value: 'Airbnb',
 				},
 				{
-					title: 'Prettier with ESLint Unicorn',
-					value: 'PrettierESLintUnicorn',
+					title: 'Unicorn',
+					value: 'Unicorn',
 				},
 			],
 		},
 		{
 			type: (prev, values) =>
-				values.selectedFeatures.includes('UnitTesting') ? 'select' : null,
-			name: 'UnitTesting',
-			message: 'Are you sure that you want to enable Unit Testing?',
+				values.selectedFeatures.includes('Testing') ? 'multiselect' : null,
+			name: 'Testing',
+			message: 'Choose your testing preferences',
 			choices: [
 				{
 					title: 'Jest',
 					value: 'Jest',
 				},
 				{
-					title: 'Ava',
-					value: 'Ava',
+					title: 'E2E Testing',
+					value: 'E2ETesting',
 				},
-			],
-		},
-		{
-			type: (prev, values) =>
-				values.selectedFeatures.includes('E2ETesting') ? 'select' : null,
-			name: 'E2ETesting',
-			message: 'Are you sure that you want to enable Unit Testing?',
-			choices: [
 				{
-					title: 'Cypress',
-					value: 'Cypress',
+					title: 'CSS-in-JS Testing',
+					value: 'CSSinJSTesting',
+				},
+				{
+					title: 'React Testing Library',
+					value: 'ReactTestingLibrary',
+				},
+				{
+					title: 'Storybook',
+					value: 'Storybook',
 				},
 			],
 		},
