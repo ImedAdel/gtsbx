@@ -189,10 +189,18 @@ const main = async () => {
 			plugins: ['gatsby-source-filesystem'],
 		}
 	`
+	const pkg = `
+		{
+			"name": "gatsby-${[`starter`, `plugin`, `theme`][getInfo.projectType]}-${getInfo.projectName}",
+			"version": "0.1.0"
+		}
+	`
 	try {
 		await fs.mkdir(getInfo.projectName)
 		console.log(`🎉 created directory ${getInfo.projectName}`)
 		await fs.outputFile(`${getInfo.projectName}/gatsby-config.js`, mdleExprts)
+		console.log(`🎉 created file gatsby-config.js`)
+		await fs.outputFile(`${getInfo.projectName}/package.json`, pkg)
 		console.log(`🎉 created file gatsby-config.js`)
 	} catch (error) {
 		throw error
