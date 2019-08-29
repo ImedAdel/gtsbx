@@ -24,7 +24,7 @@ const main = async () => {
 			name: 'selectedFeatures',
 			message: 'Check the features needed for your project:',
 			choices: [
-				{ title: 'Yarn Workspaces', value: 'YarnWorkspaces' },
+				// { title: 'Yarn Workspaces', value: 'YarnWorkspaces' },
 				{ title: 'CSS Libraries and Frameworks', value: 'CSSLibs' },
 				{ title: 'CSS-in-JS', value: 'CSSinJS' },
 				{ title: 'Linter / Formatter', value: 'LinterFormatter' },
@@ -166,13 +166,6 @@ const main = async () => {
 		},
 	])
 
-	const response = await prompts({
-		type: 'number',
-		name: 'value',
-		message: 'How old are you?',
-		validate: value => (value < 18 ? `Nightclub is 18+ only` : true),
-	})
-
 	/*
 	let detailedInfo = {}
 
@@ -186,7 +179,34 @@ const main = async () => {
 	}
 	*/
 
-	if (getInfo.selectedFeatures.YarnWorkspaces) {
+	if (getInfo.projectType === 0) {
+		const gatsbyConfig = `
+			module.exports = {
+				plugins: ['gatsby-source-filesystem'],
+			}
+		`
+		const packageJSON = `
+			{
+				"name": "gatsby-${[`starter`, `plugin`, `theme`][getInfo.projectType]}-${
+			getInfo.projectName
+		}",
+				"version": "0.1.0"
+			}
+		`
+		try {
+			await fs.mkdir(getInfo.projectName)
+			console.log(`🎉 created directory ${getInfo.projectName}`)
+			await fs.outputFile(
+				`${getInfo.projectName}/gatsby-config.js`,
+				gatsbyConfig
+			)
+			console.log(`🎉 created file gatsby-config.js`)
+			await fs.outputFile(`${getInfo.projectName}/package.json`, packageJSON)
+			console.log(`🎉 created file gatsby-config.js`)
+		} catch (error) {
+			throw error
+		}
+	} else {
 		const fullProjectName = `gatsby-${
 			[`starter`, `plugin`, `theme`][getInfo.projectType]
 		}-${getInfo.projectName}`
@@ -214,7 +234,7 @@ const main = async () => {
 			)
 			await fs.outputFile(
 				`${getInfo.projectName}/gatsby-config.js`,
-				gatsbyConfig
+				demoGatsbyConfig
 			)
 			console.log(`🎉 created file gatsby-config.js`)
 			await fs.outputFile(`${getInfo.projectName}/package.json`, packageJSON)
@@ -222,34 +242,7 @@ const main = async () => {
 		} catch (error) {
 			throw error
 		}
-	} else {
-		const gatsbyConfig = `
-			module.exports = {
-				plugins: ['gatsby-source-filesystem'],
-			}
-		`
-		const packageJSON = `
-			{
-				"name": "gatsby-${[`starter`, `plugin`, `theme`][getInfo.projectType]}-${
-			getInfo.projectName
-		}",
-				"version": "0.1.0"
-			}
-		`
-		try {
-			await fs.mkdir(getInfo.projectName)
-			console.log(`🎉 created directory ${getInfo.projectName}`)
-			await fs.outputFile(
-				`${getInfo.projectName}/gatsby-config.js`,
-				gatsbyConfig
-			)
-			console.log(`🎉 created file gatsby-config.js`)
-			await fs.outputFile(`${getInfo.projectName}/package.json`, packageJSON)
-			console.log(`🎉 created file gatsby-config.js`)
-		} catch (error) {
-			throw error
-		}
-	}
+	} 
 
 	/**
 	 * @todo remove this in production
@@ -264,7 +257,6 @@ const main = async () => {
 	console.table(getInfo)
 	console.log(getInfo)
 	console.table(getInfo.selectedFeatures)
-	console.table(response)
 	// console.table(scndDetailedInfo)
 	console.log(getInfo.selectedFeatures[1])
 
